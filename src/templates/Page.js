@@ -41,6 +41,12 @@ const PageTemplate = ({ data: { previous, next, post } }) => {
           )}
         </header>
 
+        {console.log(post)}
+
+        {post.acfFlexibleContent.blocks[0] &&
+          <div dangerouslySetInnerHTML={{ __html: post.acfFlexibleContent.blocks[0].text }} />
+        }
+
         {!!post.content && (
           <section itemProp="articleBody">{parse(post.content)}</section>
         )}
@@ -111,6 +117,14 @@ export const pageQuery = graphql`
           }
         }
       }
+
+      acfFlexibleContent {
+        blocks {
+          ... on WpPage_Acfflexiblecontent_Blocks_TextFullWidth {
+              text
+          }
+        }
+      } 
     }
 
     # this gets us the previous post by id (if it exists)
